@@ -1,0 +1,30 @@
+# Site settings
+title: Yonaka Research
+description: Developing reinforcement learning to let Yonaka play games
+author: Kazumi
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://yourusername.github.io" # replace with your GitHub username
+
+# Build settings
+markdown: kramdown
+theme: minima # We'll override this with our custom styling
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Custom settings
+permalink: /:title/
+show_excerpts: true
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .gitignore
+  - README.md
+
+# Social links (customize these)
+bluesky_username: kazooomie
+github_username:  K-Kazum1

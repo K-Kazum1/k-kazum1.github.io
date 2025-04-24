@@ -1,0 +1,2389 @@
+# Jekyll Blog Structure Export
+
+Generated on: 2025-04-20 17:23:33
+
+Source directory: `/home/kazumi/Desktop/derd/blog`
+
+This file contains the structure and content of your Jekyll blog for reference.
+
+---
+
+## File: 404.html
+
+```html
+---
+permalink: /404.html
+layout: page
+---
+
+<style type="text/css" media="screen">
+  .container {
+    margin: 10px auto;
+    max-width: 600px;
+    text-align: center;
+  }
+  h1 {
+    margin: 30px 0;
+    font-size: 4em;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+</style>
+
+<div class="container">
+  <h1>404</h1>
+
+  <p><strong>Page not found :(</strong></p>
+  <p>The requested page could not be found.</p>
+</div>
+```
+
+---
+
+## File: _config.yml
+
+```yaml
+# Site settings
+title: Yonaka's Starlit RL Lab
+description: Exploring reinforcement learning with a purple robo-pony VTuber
+author: Your Name
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://yourusername.github.io" # replace with your GitHub username
+
+# Build settings
+markdown: kramdown
+theme: minima # We'll override this with our custom styling
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Custom settings
+permalink: /:title/
+show_excerpts: true
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .gitignore
+  - README.md
+
+# Social links (customize these)
+twitter_username: yourtwitterhandle
+github_username:  yourgithubusername
+```
+
+---
+
+# Directory: _includes/
+
+---
+
+## File: _includes/head.html
+
+```html
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  {%- feed_meta -%}
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+```
+
+---
+
+## File: _includes/head.html~
+
+```
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  {%- feed_meta -%}
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+</head>
+```
+
+---
+
+# Directory: _layouts/
+
+---
+
+## File: _layouts/default.html
+
+```html
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+  {%- feed_meta -%}
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- MathJax Configuration -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async 
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+  
+  <!-- Custom Markdown Processing for character quotes -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Process special Yonaka quote syntax > [Yonaka]: Quote text
+      const content = document.querySelector('.post-content');
+      if (content) {
+        const blockquotes = content.querySelectorAll('blockquote');
+        blockquotes.forEach(quote => {
+          const firstP = quote.querySelector('p:first-child');
+          if (firstP) {
+            // Yonaka quotes
+            if (firstP.textContent.startsWith('[Yonaka]:')) {
+              quote.classList.add('yonaka-quote');
+              firstP.textContent = firstP.textContent.replace('[Yonaka]:', '').trim();
+            }
+            // Mint quotes
+            else if (firstP.textContent.startsWith('[Mint]:')) {
+              quote.classList.add('mint-quote');
+              firstP.textContent = firstP.textContent.replace('[Mint]:', '').trim();
+            }
+          }
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  {%- include header.html -%}
+
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      {{ content }}
+    </div>
+  </main>
+
+  {%- include footer.html -%}
+  
+  <!-- Optional JavaScript for additional features -->
+  <script src="{{ "/assets/js/main.js" | relative_url }}"></script>
+  <script src="{{ "/assets/js/custom-quotes.js" | relative_url }}"></script>
+</body>
+
+</html>
+```
+
+---
+
+## File: _layouts/post.html
+
+```html
+---
+layout: default
+---
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        {{ page.date | date: date_format }}
+      </time>
+      {%- if page.author -%}
+        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+      {%- endif -%}
+    </p>
+    {%- if page.featured-img -%}
+      <img src="{{ page.featured-img | relative_url }}" alt="{{ page.title }}" class="featured-image">
+    {%- endif -%}
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  {%- if site.disqus.shortname -%}
+    {%- include disqus_comments.html -%}
+  {%- endif -%}
+
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+</article>
+
+<!-- Add character quotes if desired -->
+{%- if page.show_yonaka -%}
+  {%- if page.yonaka_image -%}
+    <div class="yonaka-quote-custom" data-image="{{ page.yonaka_image }}" 
+         {% if page.yonaka_artist %}data-artist="{{ page.yonaka_artist }}"{% endif %}
+         {% if page.yonaka_artist_link %}data-artist-link="{{ page.yonaka_artist_link }}"{% endif %}>
+      {{ page.yonaka_quote }}
+    </div>
+  {%- else -%}
+    <div class="yonaka-quote">
+      {{ page.yonaka_quote }}
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{%- if page.show_mint -%}
+<div class="mint-quote">
+  {{ page.mint_quote }}
+</div>
+{%- endif -%}
+
+<!-- Add related posts if available -->
+{%- if site.related_posts.size > 0 -%}
+<div class="related-posts">
+  <h3>Related Posts</h3>
+  <ul class="post-list">
+    {%- for post in site.related_posts limit:3 -%}
+    <li>
+      <h4>
+        <a class="post-link" href="{{ post.url | relative_url }}">
+          {{ post.title | escape }}
+        </a>
+      </h4>
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      <span class="post-meta">{{ post.date | date: date_format }}</span>
+    </li>
+    {%- endfor -%}
+  </ul>
+</div>
+{%- endif -%}
+```
+
+---
+
+# Directory: _posts/
+
+---
+
+## File: _posts/2025-04-18-welcome-to-jekyll.markdown
+
+```
+---
+layout: post
+title: "Extending DQN to Continuous Action Spaces with Cubic Splines"
+date: 2025-04-18 08:00:00 -0500
+categories: reinforcement-learning dqn
+featured-img: "/assets/images/yonaka-phone.gif"
+---
+
+# Extending DQN to Continuous Action Spaces with Cubic Splines
+
+One of the main things that turns people away from using Deep Q-Learning is its inability to handle continuous actions or multiple sub-actions. In Stable Baselines 3, they have a table of reinforcement learning algorithms and what kind of action spaces they each work in.
+
+![Stable Baselines 3 Algorithm Comparison](/assets/images/stable-baselines-comparison.png)
+
+In their table, DQN only has a tick on the Discrete actions box. That is very limiting! It would be nice if there was an easy and cheap way of allowing DQN to work with continuous and multiple actions. But for now, let's focus on how to make the first one work.
+
+## The Problem with Discrete-Only Actions
+
+In games like fighting games, where an agent selects from a set of actions (move left, jump, shoot), a normal DQN works wonderfully. But what about games that need more precise control? Think about:
+
+- A car adjusting its steering angle
+- Twinstick shooter like Binding of Isaac
+- A game like Minecraft where you need both discrete actions (moving with WASD keys, mining with click) and continuous control (moving the camera around)
+
+Eventually I would have had to build an agent that works with continuous control, but I knew DQN wouldn't work out of the box. The standard approach—discretizing the action space into bins—technically works but produces jerky, unnatural movement. Imagine a car that can only turn its steering wheel in 10-degree increments instead of smoothly!
+
+Most practitioners simply avoid DQN altogether for these tasks, moving to algorithms specifically designed for continuous control like DDPG or SAC. But I wondered: could we adapt DQN to handle continuous actions elegantly?
+
+## Why Can't DQN Handle Continuous Actions?
+
+To understand the problem, we need to revisit how Q-learning actually works.
+
+In DQN, the Q-function represents the expected future reward when taking action a in state s, then following the policy afterward. This is written as $Q(s, a)$.
+
+For an agent to act, it needs to find the action that maximizes this Q-function:
+
+$$a^* = \arg\max_a Q(s, a)$$
+
+For discrete actions, this is straightforward. If you have 4 possible actions, you calculate a Q-value for each one and pick the highest. Done!
+
+But what happens with continuous actions? If an action can be any value between, say, 0 and 1, we can't simply enumerate all possibilities.
+
+![Discrete vs Continuous Action Space](/assets/images/discrete-vs-continuous.png)
+
+## The Standard Solution: Discretization
+
+The most common approach is to simply chop up (discretize) the continuous action space into a finite set of actions.
+
+For example, if your action space is $[0, 1]$, you might use $\{0, 0.1, 0.2, ..., 0.9, 1.0\}$ as your discrete approximation.
+
+![Discretization Diagram](/assets/images/discretization-diagram.png)
+
+This works, but has significant drawbacks:
+
+1. **Resolution problems**: Too few points and your agent can't make fine adjustments; too many and learning becomes inefficient
+2. **No knowledge transfer**: Learning that action 0.5 is good tells the agent nothing about whether 0.51 might be even better
+3. **Curse of dimensionality**: Discretizing multiple continuous actions leads to combinatorial explosion
+
+<div class="yonaka-quote-custom" 
+     data-image="/assets/images/yonaka-confused.png"
+     data-artist="sroka001"
+     data-artist-link="https://bsky.app/profile/sroka001.bsky.social">
+  I tried action 0.5 and it worked well... but should I try 0.51? 0.49?
+</div>
+
+## A Different Way of Looking at Q-Functions
+
+Let's think about what happens when we're trying to select an action. Notice something important:
+
+For a given state $s$, the argmax operation over actions doesn't depend on the state anymore. We've essentially "locked in" our state and now just need to find the best action for that particular state.
+
+This means, to make the argmax operation easier, we could curry the state into the Q-function $Q(s, a)$ to make a simpler function that only depends on the action $Q_s(a)$, and then take the maximum over the action:
+
+$$Q_s(a) = Q(s, a) \text{ where } s \text{ is fixed}$$
+
+For discrete actions, $Q_s(a)$ is just a lookup table! Finding the maximum value in a table is trivial.
+
+But for continuous actions, $Q_s(a)$ becomes a continuous function over the action space. Finding the maximum of an arbitrary continuous function is much harder.
+
+## What We Need in a Continuous Q-Function
+
+If we want to use Q-learning with continuous actions, our representation of the Q-function needs to support several operations:
+
+1. **Evaluation**: We need to compute $Q(s, a)$ for any action $a$
+2. **Maximization**: We need to efficiently find the action $a$ that maximizes $Q(s, a)$
+3. **Integration**: For some advanced techniques like Dueling Networks, we need to compute the average Q-value across all actions
+4. **Addition**: We need to be able to add Q-functions together (useful for ensemble methods)
+
+![Continuous Q Value Diagram](/assets/images/continuous-values-diagram.png)
+
+Many function approximators can handle evaluation, but maximization and integration are trickier. Neural networks, for instance, make evaluation easy but finding the global maximum is very difficult.
+
+So what kind of mathematical construct could satisfy all these requirements?
+
+## Enter Cubic Splines
+
+A cubic spline is a piecewise function made up of cubic polynomials that are smoothly connected at specific points called knots.
+
+![Cubic Spline Diagram](/assets/images/cubic-spline-diagram.png)
+
+Cubic splines have several properties that make them perfect for our needs:
+
+1. They're smooth and continuous
+2. They can approximate any continuous function (with enough knots)
+3. We can analytically find their maximums and compute their integrals
+4. They're closed under addition (adding two cubic splines gives you another cubic spline)
+
+### How Cubic Splines Work
+
+A cubic spline is defined by a set of control points $(x_0, y_0), (x_1, y_1), ..., (x_n, y_n)$ where $x$ values are positions in our action space and $y$ values are our estimated Q-values at those actions.
+
+Between each pair of control points, we define a cubic polynomial:
+
+$$S_i(x) = a_i(x-x_i)^3 + b_i(x-x_i)^2 + c_i(x-x_i) + d_i$$
+
+These polynomials are crafted to ensure that:
+
+- The spline passes through all control points
+- The first and second derivatives match at each interior control point
+- Specific boundary conditions are met at the endpoints
+
+I find that it's much easier to handle if the internal coordinates of each polynomial goes from 0 to 1, and we translate when using them.
+
+## Operations on Cubic Splines
+
+Now let's see how cubic splines handle all the operations we need:
+
+### 1. Evaluation
+
+To evaluate a cubic spline at a particular action value:
+
+1. Find which segment the action falls into
+2. Evaluate the cubic polynomial for that segment
+
+### 2. Finding the Maximum
+
+We can use the derivative tests to find all the potential points for each segment, and then find the maximum of those.
+
+For each cubic polynomial segment:
+
+1. Calculate its derivative (which is a quadratic polynomial)
+2. Find the roots of this quadratic polynomial (1st derivative test)
+3. Evaluate the spline at these points and at the boundaries
+4. Take the maximum of all these values
+
+![Maximization of Spline](/assets/images/maximization-diagram.png)
+
+Since we're dealing with cubic polynomials, the derivative is quadratic, and finding roots of a quadratic equation is trivial using the quadratic formula:
+
+$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+
+And we can even narrow down the points by half if we use the 2nd derivative test.
+
+### 3. Computing the Mean
+
+The mean value of a function over the entire input could be computed by taking the integral and dividing by the input space size. For our cubic spline, we just need to integrate all the cubic polynomials and add them together, then multiply by the segment lengths they're in.
+
+If we made the internal coordinates go from 0 to 1, we don't even need to integrate, we can just weight the polynomial coefficient and add them.
+
+### 4. Adding Splines
+
+Adding two cubic splines is straightforward:
+
+1. Combine all unique knot points
+2. For each segment in the combined domain, add the corresponding polynomial coefficients
+
+## Why This Approach Works Better
+
+Using cubic splines to represent our Q-function gives us several advantages:
+
+1. **Smooth approximation**: Unlike discretization, splines provide a continuous representation
+2. **Knowledge transfer**: Learning about the Q-value at one action informs us about nearby actions
+3. **Analytical maximization**: We can find the optimal action precisely, not just choose from a predefined set
+4. **Sample efficiency**: We need fewer samples to learn a good policy
+
+## Experimental Results
+
+[This section will be added once my experiments are complete]
+
+## Code Implementation
+
+Here's a simplified implementation of the cubic splines Q-function in Python:
+
+[This section will be added later]
+
+
+## Conclusion
+
+DQN doesn't have to be limited to discrete action spaces. By representing the Q-function as a cubic spline, we can enable DQN to work elegantly with continuous actions, maintaining the algorithm's simplicity while expanding its applicability to a wider range of problems.
+
+This approach bridges the gap between classic DQN and specialized continuous control algorithms, giving reinforcement learning practitioners more flexibility in their choice of methods.
+
+In future posts, I'll show how this approach can be extended to handle multiple continuous actions simultaneously, and demonstrate its performance on benchmark problems.
+
+<div class="yonaka-quote">
+"I used to be limited to jumping between discrete steps, but with splines, I can slide smoothly through the action space! No more awkward robot movements - now my actions are as fluid as a human player's."
+</div>
+```
+
+---
+
+## File: about.markdown
+
+```
+---
+layout: page
+title: About
+permalink: /about/
+---
+
+This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+
+You can find the source code for Minima at GitHub:
+[jekyll][jekyll-organization] /
+[minima](https://github.com/jekyll/minima)
+
+You can find the source code for Jekyll at GitHub:
+[jekyll][jekyll-organization] /
+[jekyll](https://github.com/jekyll/jekyll)
+
+
+[jekyll-organization]: https://github.com/jekyll
+```
+
+---
+
+# Directory: assets/
+
+---
+
+# Directory: assets/css/
+
+---
+
+## File: assets/css/style.scss
+
+```scss
+---
+---
+
+/* Import the base theme first - with @ symbol */
+@import "{{ site.theme }}";
+
+/* Custom variables - to replace deprecated color methods */
+$background-color: #f0f0fa;
+$text-color: #5a5a8a;
+$accent-color: #b39ddb;
+$accent-dark: #7e57c2;
+$accent-light: #d1c4e9;
+$code-background: #f5f3ff;
+$code-text: #5a5a8a;
+$link-color: #7e57c2;
+$link-hover-color: #ff9e80;
+$border-color: #d4d4f0;
+$blockquote-color: #b39ddb;
+$night-accent: #b0c4de;
+$star-color: #fff59d;
+
+/* Custom styles - using direct colors instead of functions like lighten() */
+
+/* Base styles */
+body {
+  background-color: $background-color;
+  color: $text-color;
+  font-family: 'Quicksand', 'Open Sans', sans-serif;
+  line-height: 1.6;
+  background-image: linear-gradient(to bottom, $background-color 0%, $background-color 97%, $night-accent 100%);
+  background-attachment: fixed;
+}
+
+/* Star accents - subtle background details */
+body:before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: radial-gradient($star-color 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* Header styles */
+.site-header {
+  border-bottom: 1px solid $border-color;
+  background-color: rgba(240, 240, 250, 0.9);
+  box-shadow: 0 2px 10px rgba(176, 196, 222, 0.2);
+}
+
+.site-title, .site-title:visited {
+  color: $link-color;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.site-nav .page-link {
+  color: $text-color;
+  transition: color 0.3s ease;
+}
+
+/* Footer styles */
+.site-footer {
+  border-top: 1px solid $border-color;
+  background-color: rgba(240, 240, 250, 0.9);
+  box-shadow: 0 -2px 10px rgba(176, 196, 222, 0.2);
+  margin-top: 40px;
+  padding-top: 20px;
+}
+
+/* Content styles */
+a, a:visited {
+  color: $link-color;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px dotted $link-color;
+  padding-bottom: 1px;
+}
+
+a:hover {
+  color: $link-hover-color;
+  border-bottom: 1px solid $link-hover-color;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $accent-dark;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+h1 {
+  font-size: 2.2em;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+h1:after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, $accent-color, $accent-dark);
+  bottom: 0;
+  left: 0;
+}
+
+h2 {
+  color: $accent-dark;
+  font-size: 1.7em;
+}
+
+h3 {
+  color: $accent-dark;
+  font-size: 1.4em;
+}
+
+/* Clean, simple code blocks */
+pre, code {
+  background-color: var(--code-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(176, 196, 222, 0.1);
+  color: var(--code-text);
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+pre {
+  padding: 12px 15px;
+  overflow-x: auto;
+  position: relative;
+}
+
+code {
+  padding: 2px 6px;
+  letter-spacing: 0;
+  position: relative;
+  tab-size: 4;
+}
+
+pre {
+  padding: 8px 12px;
+  overflow-x: auto;
+}
+
+code {
+  padding: 1px 5px;
+}
+
+/* Blockquotes - for Yonaka's perspective */
+blockquote {
+  border-left: 4px solid var(--blockquote-color);
+  padding-left: 15px;
+  font-style: italic;
+  color: var(--text-color);
+  background-color: rgba(179, 157, 219, 0.15);
+  border-radius: 0 12px 12px 0;
+  margin: 20px 0;
+  padding: 15px 20px;
+  box-shadow: 0 2px 10px rgba(176, 196, 222, 0.15);
+}
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+table th, table td {
+  padding: 8px;
+  border: 1px solid var(--border-color);
+}
+
+table th {
+  background-color: rgba(181, 157, 219, 0.2);
+}
+
+table tr:nth-child(even) {
+  background-color: rgba(20, 20, 40, 0.5);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.8rem;
+  margin-bottom: 1.8rem;
+  box-shadow: 0 4px 15px rgba(176, 196, 222, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+img:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(176, 196, 222, 0.4);
+}
+
+/* Image captions */
+img + em {
+  display: block;
+  text-align: center;
+  font-size: 0.95rem;
+  color: $text-color;
+  opacity: 0.9;
+  margin-top: -0.8rem;
+  margin-bottom: 2rem;
+  font-family: 'Quicksand', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+/* Post list */
+.post-list {
+  margin-left: 0;
+  list-style: none;
+}
+
+.post-list li {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px dashed $border-color;
+  transition: transform 0.3s ease;
+}
+
+.post-list li:hover {
+  transform: translateX(5px);
+}
+
+.post-link {
+  font-size: 1.6rem;
+  color: $link-color;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.post-link:hover {
+  color: $link-hover-color;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.post-meta {
+  font-size: 0.9rem;
+  color: #8a8ab0;
+  font-style: italic;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.post-excerpt {
+  color: $text-color;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.pagination a, .pagination span {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 4px;
+  background-color: rgba(179, 157, 219, 0.1);
+}
+
+.pagination a:hover {
+  background-color: rgba(179, 157, 219, 0.2);
+}
+
+/* MathJax specific styling */
+.MathJax {
+  color: $text-color !important;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.pagination a, .pagination span {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 4px;
+  background-color: rgba(181, 157, 219, 0.1);
+}
+
+.pagination a:hover {
+  background-color: rgba(181, 157, 219, 0.2);
+}
+
+/* MathJax specific styling */
+.MathJax {
+  color: var(--text-color) !important;
+}
+
+/* Yonaka character quotes with customizable images */
+.yonaka-quote {
+  position: relative;
+  font-style: italic;
+  padding: 30px 30px 30px 120px; /* Increased left padding for larger icon and better text centering */
+  background-color: rgba(179, 157, 219, 0.15);
+  border-radius: 12px;
+  margin: 25px 0;
+  box-shadow: 0 3px 15px rgba(176, 196, 222, 0.2);
+  border-left: 4px solid $accent-color;
+  border-right: 4px solid $accent-dark;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Default Yonaka icon */
+.yonaka-quote:before {
+  content: '';
+  position: absolute;
+  left: 25px; /* Increased from 20px */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px; 
+  height: 64px;
+  background-image: url('/assets/images/yonaka-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+}
+
+/* Custom image Yonaka quotes */
+.yonaka-quote.custom-image:before {
+  background-image: none; /* Will be set via style attribute */
+  width: 80px;
+  height: 80px;
+}
+
+/* Subtle glow effect for Yonaka quotes - mimicking her orange glowing eyes */
+.yonaka-quote:after {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px;
+  height: 64px;
+  background: radial-gradient(circle, rgba(255, 158, 128, 0.3) 0%, rgba(255, 158, 128, 0) 70%);
+  z-index: -1;
+  animation: pulse 3s infinite alternate;
+}
+
+/* Artist attribution for custom images */
+.artist-credit {
+  display: block;
+  font-size: 0.8rem;
+  color: $text-color;
+  opacity: 0.7;
+  font-style: normal;
+  text-align: right;
+  margin-top: 10px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.artist-credit a {
+  color: $accent-dark;
+  border-bottom: none;
+}
+
+.artist-credit a:hover {
+  color: $link-hover-color;
+  border-bottom: 1px dotted $link-hover-color;
+}
+
+/* Mint green character quote */
+.mint-quote {
+  position: relative;
+  font-style: italic;
+  padding: 30px 30px 30px 100px; /* Increased left padding for larger icon */
+  background-color: rgba(159, 232, 179, 0.15);
+  border-radius: 12px;
+  margin: 25px 0;
+  box-shadow: 0 3px 15px rgba(176, 196, 222, 0.2);
+  border-left: 4px solid #9fe8b3;
+  border-right: 4px solid #7ec897;
+}
+
+.mint-quote:before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px; /* Increased from 45px */
+  height: 64px; /* Increased from 45px */
+  background-image: url('/assets/images/mint-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+}
+
+/* Glow effect for mint quotes - matching pink eyes */
+.mint-quote:after {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px; /* Increased from 45px */
+  height: 64px; /* Increased from 45px */
+  background: radial-gradient(circle, rgba(255, 105, 180, 0.3) 0%, rgba(255, 105, 180, 0) 70%);
+  z-index: -1;
+  animation: pulse 3s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+
+/* Dark mode toggle - if you want to add this feature later */
+.dark-mode-toggle {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  opacity: 1;
+}
+```
+
+---
+
+# Directory: assets/images/
+
+---
+
+## Binary File: assets/images/continuous-values-diagram.png
+
+## Binary File: assets/images/cubic-spline-diagram.png
+
+## Binary File: assets/images/discrete-vs-continuous.png
+
+## Binary File: assets/images/discretization-diagram.png
+
+## Binary File: assets/images/kazumi-avatar.png
+
+## Binary File: assets/images/kazumi-icon.png
+
+## Binary File: assets/images/maximization-diagram.png
+
+## Binary File: assets/images/stable-baselines-comparison.png
+
+## Binary File: assets/images/yonaka-avatar.png
+
+## Binary File: assets/images/yonaka-confused.png
+
+## Binary File: assets/images/yonaka-icon.png
+
+## Binary File: assets/images/yonaka-phone.gif
+
+# Directory: assets/js/
+
+---
+
+## File: assets/js/custom-quotes.js
+
+```javascript
+/**
+ * Custom quote processing for character quotes with images
+ */
+document.addEventListener('DOMContentLoaded', function() {
+  // Process custom image quotes
+  const content = document.querySelector('.post-content');
+  if (content) {
+    // Process div.yonaka-quote-custom elements
+    const customQuotes = content.querySelectorAll('.yonaka-quote-custom');
+    customQuotes.forEach(quote => {
+      // Get the image path, artist name, and artist link from data attributes
+      const imagePath = quote.getAttribute('data-image');
+      const artistName = quote.getAttribute('data-artist');
+      const artistLink = quote.getAttribute('data-artist-link');
+      
+      if (imagePath) {
+        // Add the custom-image class
+        quote.classList.add('yonaka-quote', 'custom-image');
+        
+        // Create a CSS background-image style for the :before pseudo-element
+        const style = document.createElement('style');
+        const quoteId = 'quote-' + Math.random().toString(36).substr(2, 9); // Generate a random ID
+        quote.id = quoteId;
+        
+        style.textContent = `
+          #${quoteId}:before {
+            background-image: url('${imagePath}');
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            border-radius: 8px;
+            left: 30px; /* Increased from 20px */
+          }
+        `;
+        document.head.appendChild(style);
+        
+        // Add artist attribution if provided
+        if (artistName) {
+          const attribution = document.createElement('span');
+          attribution.className = 'artist-credit';
+          
+          if (artistLink) {
+            attribution.innerHTML = `Art by <a href="${artistLink}" target="_blank">${artistName}</a>`;
+          } else {
+            attribution.textContent = `Art by ${artistName}`;
+          }
+          
+          quote.appendChild(attribution);
+        }
+      }
+    });
+    
+    // Process blockquotes with custom image syntax
+    // Format: > [Yonaka:image=/path/to/image.png;artist=Name;link=url]: Quote text
+    const blockquotes = content.querySelectorAll('blockquote');
+    blockquotes.forEach(quote => {
+      const firstP = quote.querySelector('p:first-child');
+      if (firstP) {
+        const text = firstP.textContent;
+        
+        // Check for Yonaka custom image syntax
+        if (text.startsWith('[Yonaka:')) {
+          // Extract the parameters
+          const closingBracket = text.indexOf(']');
+          if (closingBracket > 0) {
+            const params = text.substring(8, closingBracket);
+            const quoteText = text.substring(closingBracket + 1).trim();
+            
+            // Parse parameters
+            const imagePath = params.match(/image=([^;]+)(;|$)/);
+            const artistName = params.match(/artist=([^;]+)(;|$)/);
+            const artistLink = params.match(/link=([^;]+)(;|$)/);
+            
+            if (imagePath) {
+              // Add the custom-image class
+              quote.classList.add('yonaka-quote', 'custom-image');
+              
+              // Set the quote text
+              firstP.textContent = quoteText;
+              
+              // Create a CSS background-image style for the :before pseudo-element
+              const style = document.createElement('style');
+              const quoteId = 'quote-' + Math.random().toString(36).substr(2, 9);
+              quote.id = quoteId;
+              
+              style.textContent = `
+            #${quoteId}:before {
+              background-image: url('${imagePath[1]}');
+              width: 100px;
+              height: 100px;
+              background-size: cover;
+              border-radius: 8px;
+              left: 30px; /* Increased from 20px */
+            }
+          `;
+              document.head.appendChild(style);
+              
+              // Add artist attribution if provided
+              if (artistName) {
+                const attribution = document.createElement('span');
+                attribution.className = 'artist-credit';
+                
+                if (artistLink) {
+                  attribution.innerHTML = `Art by <a href="${artistLink[1]}" target="_blank">${artistName[1]}</a>`;
+                } else {
+                  attribution.textContent = `Art by ${artistName[1]}`;
+                }
+                
+                quote.appendChild(attribution);
+              }
+            }
+          }
+        }
+        // Regular Yonaka quote
+        else if (text.startsWith('[Yonaka]:')) {
+          quote.classList.add('yonaka-quote');
+          firstP.textContent = text.replace('[Yonaka]:', '').trim();
+        }
+        // Mint quotes
+        else if (text.startsWith('[Mint]:')) {
+          quote.classList.add('mint-quote');
+          firstP.textContent = text.replace('[Mint]:', '').trim();
+        }
+      }
+    });
+  }
+});
+```
+
+---
+
+## File: assets/js/main.js
+
+```javascript
+document.addEventListener('DOMContentLoaded', function() {
+  // Add smooth scrolling to all links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+  
+  // Highlight code blocks with syntax highlighting
+  // This is typically handled by Jekyll plugins, but you can add additional functionality
+  
+  // Toggle for mobile navigation if needed
+  const navToggle = document.querySelector('.nav-toggle');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      const nav = document.querySelector('.site-nav');
+      nav.classList.toggle('nav-open');
+    });
+  }
+  
+  // You can add interactive demos for your RL concepts here
+  // For example, a small visualization of how splines work
+  const splineCanvas = document.getElementById('splineDemo');
+  if (splineCanvas) {
+    const ctx = splineCanvas.getContext('2d');
+    // Draw a simple spline visualization
+    // ... (implementation details)
+  }
+  
+  // Yonaka character animation or interactions
+  const yonakaElements = document.querySelectorAll('.yonaka-quote');
+  if (yonakaElements.length > 0) {
+    yonakaElements.forEach(element => {
+      // Add hover effects or small animations for Yonaka quotes
+      element.addEventListener('mouseenter', () => {
+        element.classList.add('yonaka-hover');
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        element.classList.remove('yonaka-hover');
+      });
+    });
+  }
+});
+```
+
+---
+
+# Directory: assets/python/
+
+---
+
+## File: assets/python/data.txt
+
+```
+# Jekyll Blog Structure Export
+
+Generated on: 2025-04-20 17:23:33
+
+Source directory: `/home/kazumi/Desktop/derd/blog`
+
+This file contains the structure and content of your Jekyll blog for reference.
+
+---
+
+## File: 404.html
+
+```html
+---
+permalink: /404.html
+layout: page
+---
+
+<style type="text/css" media="screen">
+  .container {
+    margin: 10px auto;
+    max-width: 600px;
+    text-align: center;
+  }
+  h1 {
+    margin: 30px 0;
+    font-size: 4em;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+</style>
+
+<div class="container">
+  <h1>404</h1>
+
+  <p><strong>Page not found :(</strong></p>
+  <p>The requested page could not be found.</p>
+</div>
+```
+
+---
+
+## File: _config.yml
+
+```yaml
+# Site settings
+title: Yonaka's Starlit RL Lab
+description: Exploring reinforcement learning with a purple robo-pony VTuber
+author: Your Name
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://yourusername.github.io" # replace with your GitHub username
+
+# Build settings
+markdown: kramdown
+theme: minima # We'll override this with our custom styling
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Custom settings
+permalink: /:title/
+show_excerpts: true
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .gitignore
+  - README.md
+
+# Social links (customize these)
+twitter_username: yourtwitterhandle
+github_username:  yourgithubusername
+```
+
+---
+
+# Directory: _includes/
+
+---
+
+## File: _includes/head.html
+
+```html
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  {%- feed_meta -%}
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+```
+
+---
+
+## File: _includes/head.html~
+
+```
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  {%- feed_meta -%}
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+</head>
+```
+
+---
+
+# Directory: _layouts/
+
+---
+
+## File: _layouts/default.html
+
+```html
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+  {%- feed_meta -%}
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- MathJax Configuration -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async 
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+  
+  <!-- Custom Markdown Processing for character quotes -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Process special Yonaka quote syntax > [Yonaka]: Quote text
+      const content = document.querySelector('.post-content');
+      if (content) {
+        const blockquotes = content.querySelectorAll('blockquote');
+        blockquotes.forEach(quote => {
+          const firstP = quote.querySelector('p:first-child');
+          if (firstP) {
+            // Yonaka quotes
+            if (firstP.textContent.startsWith('[Yonaka]:')) {
+              quote.classList.add('yonaka-quote');
+              firstP.textContent = firstP.textContent.replace('[Yonaka]:', '').trim();
+            }
+            // Mint quotes
+            else if (firstP.textContent.startsWith('[Mint]:')) {
+              quote.classList.add('mint-quote');
+              firstP.textContent = firstP.textContent.replace('[Mint]:', '').trim();
+            }
+          }
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  {%- include header.html -%}
+
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      {{ content }}
+    </div>
+  </main>
+
+  {%- include footer.html -%}
+  
+  <!-- Optional JavaScript for additional features -->
+  <script src="{{ "/assets/js/main.js" | relative_url }}"></script>
+  <script src="{{ "/assets/js/custom-quotes.js" | relative_url }}"></script>
+</body>
+
+</html>
+```
+
+---
+
+## File: _layouts/post.html
+
+```html
+---
+layout: default
+---
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        {{ page.date | date: date_format }}
+      </time>
+      {%- if page.author -%}
+        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+      {%- endif -%}
+    </p>
+    {%- if page.featured-img -%}
+      <img src="{{ page.featured-img | relative_url }}" alt="{{ page.title }}" class="featured-image">
+    {%- endif -%}
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  {%- if site.disqus.shortname -%}
+    {%- include disqus_comments.html -%}
+  {%- endif -%}
+
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+</article>
+
+<!-- Add character quotes if desired -->
+{%- if page.show_yonaka -%}
+  {%- if page.yonaka_image -%}
+    <div class="yonaka-quote-custom" data-image="{{ page.yonaka_image }}" 
+         {% if page.yonaka_artist %}data-artist="{{ page.yonaka_artist }}"{% endif %}
+         {% if page.yonaka_artist_link %}data-artist-link="{{ page.yonaka_artist_link }}"{% endif %}>
+      {{ page.yonaka_quote }}
+    </div>
+  {%- else -%}
+    <div class="yonaka-quote">
+      {{ page.yonaka_quote }}
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{%- if page.show_mint -%}
+<div class="mint-quote">
+  {{ page.mint_quote }}
+</div>
+{%- endif -%}
+
+<!-- Add related posts if available -->
+{%- if site.related_posts.size > 0 -%}
+<div class="related-posts">
+  <h3>Related Posts</h3>
+  <ul class="post-list">
+    {%- for post in site.related_posts limit:3 -%}
+    <li>
+      <h4>
+        <a class="post-link" href="{{ post.url | relative_url }}">
+          {{ post.title | escape }}
+        </a>
+      </h4>
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      <span class="post-meta">{{ post.date | date: date_format }}</span>
+    </li>
+    {%- endfor -%}
+  </ul>
+</div>
+{%- endif -%}
+```
+
+---
+
+# Directory: _posts/
+
+---
+
+## File: _posts/2025-04-18-welcome-to-jekyll.markdown
+
+```
+---
+layout: post
+title: "Extending DQN to Continuous Action Spaces with Cubic Splines"
+date: 2025-04-18 08:00:00 -0500
+categories: reinforcement-learning dqn
+featured-img: "/assets/images/yonaka-phone.gif"
+---
+
+# Extending DQN to Continuous Action Spaces with Cubic Splines
+
+One of the main things that turns people away from using Deep Q-Learning is its inability to handle continuous actions or multiple sub-actions. In Stable Baselines 3, they have a table of reinforcement learning algorithms and what kind of action spaces they each work in.
+
+![Stable Baselines 3 Algorithm Comparison](/assets/images/stable-baselines-comparison.png)
+
+In their table, DQN only has a tick on the Discrete actions box. That is very limiting! It would be nice if there was an easy and cheap way of allowing DQN to work with continuous and multiple actions. But for now, let's focus on how to make the first one work.
+
+## The Problem with Discrete-Only Actions
+
+In games like fighting games, where an agent selects from a set of actions (move left, jump, shoot), a normal DQN works wonderfully. But what about games that need more precise control? Think about:
+
+- A car adjusting its steering angle
+- Twinstick shooter like Binding of Isaac
+- A game like Minecraft where you need both discrete actions (moving with WASD keys, mining with click) and continuous control (moving the camera around)
+
+Eventually I would have had to build an agent that works with continuous control, but I knew DQN wouldn't work out of the box. The standard approach—discretizing the action space into bins—technically works but produces jerky, unnatural movement. Imagine a car that can only turn its steering wheel in 10-degree increments instead of smoothly!
+
+Most practitioners simply avoid DQN altogether for these tasks, moving to algorithms specifically designed for continuous control like DDPG or SAC. But I wondered: could we adapt DQN to handle continuous actions elegantly?
+
+## Why Can't DQN Handle Continuous Actions?
+
+To understand the problem, we need to revisit how Q-learning actually works.
+
+In DQN, the Q-function represents the expected future reward when taking action a in state s, then following the policy afterward. This is written as $Q(s, a)$.
+
+For an agent to act, it needs to find the action that maximizes this Q-function:
+
+$$a^* = \arg\max_a Q(s, a)$$
+
+For discrete actions, this is straightforward. If you have 4 possible actions, you calculate a Q-value for each one and pick the highest. Done!
+
+But what happens with continuous actions? If an action can be any value between, say, 0 and 1, we can't simply enumerate all possibilities.
+
+![Discrete vs Continuous Action Space](/assets/images/discrete-vs-continuous.png)
+
+## The Standard Solution: Discretization
+
+The most common approach is to simply chop up (discretize) the continuous action space into a finite set of actions.
+
+For example, if your action space is $[0, 1]$, you might use $\{0, 0.1, 0.2, ..., 0.9, 1.0\}$ as your discrete approximation.
+
+![Discretization Diagram](/assets/images/discretization-diagram.png)
+
+This works, but has significant drawbacks:
+
+1. **Resolution problems**: Too few points and your agent can't make fine adjustments; too many and learning becomes inefficient
+2. **No knowledge transfer**: Learning that action 0.5 is good tells the agent nothing about whether 0.51 might be even better
+3. **Curse of dimensionality**: Discretizing multiple continuous actions leads to combinatorial explosion
+
+<div class="yonaka-quote-custom" 
+     data-image="/assets/images/yonaka-confused.png"
+     data-artist="sroka001"
+     data-artist-link="https://bsky.app/profile/sroka001.bsky.social">
+  I tried action 0.5 and it worked well... but should I try 0.51? 0.49?
+</div>
+
+## A Different Way of Looking at Q-Functions
+
+Let's think about what happens when we're trying to select an action. Notice something important:
+
+For a given state $s$, the argmax operation over actions doesn't depend on the state anymore. We've essentially "locked in" our state and now just need to find the best action for that particular state.
+
+This means, to make the argmax operation easier, we could curry the state into the Q-function $Q(s, a)$ to make a simpler function that only depends on the action $Q_s(a)$, and then take the maximum over the action:
+
+$$Q_s(a) = Q(s, a) \text{ where } s \text{ is fixed}$$
+
+For discrete actions, $Q_s(a)$ is just a lookup table! Finding the maximum value in a table is trivial.
+
+But for continuous actions, $Q_s(a)$ becomes a continuous function over the action space. Finding the maximum of an arbitrary continuous function is much harder.
+
+## What We Need in a Continuous Q-Function
+
+If we want to use Q-learning with continuous actions, our representation of the Q-function needs to support several operations:
+
+1. **Evaluation**: We need to compute $Q(s, a)$ for any action $a$
+2. **Maximization**: We need to efficiently find the action $a$ that maximizes $Q(s, a)$
+3. **Integration**: For some advanced techniques like Dueling Networks, we need to compute the average Q-value across all actions
+4. **Addition**: We need to be able to add Q-functions together (useful for ensemble methods)
+
+![Continuous Q Value Diagram](/assets/images/continuous-values-diagram.png)
+
+Many function approximators can handle evaluation, but maximization and integration are trickier. Neural networks, for instance, make evaluation easy but finding the global maximum is very difficult.
+
+So what kind of mathematical construct could satisfy all these requirements?
+
+## Enter Cubic Splines
+
+A cubic spline is a piecewise function made up of cubic polynomials that are smoothly connected at specific points called knots.
+
+![Cubic Spline Diagram](/assets/images/cubic-spline-diagram.png)
+
+Cubic splines have several properties that make them perfect for our needs:
+
+1. They're smooth and continuous
+2. They can approximate any continuous function (with enough knots)
+3. We can analytically find their maximums and compute their integrals
+4. They're closed under addition (adding two cubic splines gives you another cubic spline)
+
+### How Cubic Splines Work
+
+A cubic spline is defined by a set of control points $(x_0, y_0), (x_1, y_1), ..., (x_n, y_n)$ where $x$ values are positions in our action space and $y$ values are our estimated Q-values at those actions.
+
+Between each pair of control points, we define a cubic polynomial:
+
+$$S_i(x) = a_i(x-x_i)^3 + b_i(x-x_i)^2 + c_i(x-x_i) + d_i$$
+
+These polynomials are crafted to ensure that:
+
+- The spline passes through all control points
+- The first and second derivatives match at each interior control point
+- Specific boundary conditions are met at the endpoints
+
+I find that it's much easier to handle if the internal coordinates of each polynomial goes from 0 to 1, and we translate when using them.
+
+## Operations on Cubic Splines
+
+Now let's see how cubic splines handle all the operations we need:
+
+### 1. Evaluation
+
+To evaluate a cubic spline at a particular action value:
+
+1. Find which segment the action falls into
+2. Evaluate the cubic polynomial for that segment
+
+### 2. Finding the Maximum
+
+We can use the derivative tests to find all the potential points for each segment, and then find the maximum of those.
+
+For each cubic polynomial segment:
+
+1. Calculate its derivative (which is a quadratic polynomial)
+2. Find the roots of this quadratic polynomial (1st derivative test)
+3. Evaluate the spline at these points and at the boundaries
+4. Take the maximum of all these values
+
+![Maximization of Spline](/assets/images/maximization-diagram.png)
+
+Since we're dealing with cubic polynomials, the derivative is quadratic, and finding roots of a quadratic equation is trivial using the quadratic formula:
+
+$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+
+And we can even narrow down the points by half if we use the 2nd derivative test.
+
+### 3. Computing the Mean
+
+The mean value of a function over the entire input could be computed by taking the integral and dividing by the input space size. For our cubic spline, we just need to integrate all the cubic polynomials and add them together, then multiply by the segment lengths they're in.
+
+If we made the internal coordinates go from 0 to 1, we don't even need to integrate, we can just weight the polynomial coefficient and add them.
+
+### 4. Adding Splines
+
+Adding two cubic splines is straightforward:
+
+1. Combine all unique knot points
+2. For each segment in the combined domain, add the corresponding polynomial coefficients
+
+## Why This Approach Works Better
+
+Using cubic splines to represent our Q-function gives us several advantages:
+
+1. **Smooth approximation**: Unlike discretization, splines provide a continuous representation
+2. **Knowledge transfer**: Learning about the Q-value at one action informs us about nearby actions
+3. **Analytical maximization**: We can find the optimal action precisely, not just choose from a predefined set
+4. **Sample efficiency**: We need fewer samples to learn a good policy
+
+## Experimental Results
+
+[This section will be added once my experiments are complete]
+
+## Code Implementation
+
+Here's a simplified implementation of the cubic splines Q-function in Python:
+
+[This section will be added later]
+
+
+## Conclusion
+
+DQN doesn't have to be limited to discrete action spaces. By representing the Q-function as a cubic spline, we can enable DQN to work elegantly with continuous actions, maintaining the algorithm's simplicity while expanding its applicability to a wider range of problems.
+
+This approach bridges the gap between classic DQN and specialized continuous control algorithms, giving reinforcement learning practitioners more flexibility in their choice of methods.
+
+In future posts, I'll show how this approach can be extended to handle multiple continuous actions simultaneously, and demonstrate its performance on benchmark problems.
+
+<div class="yonaka-quote">
+"I used to be limited to jumping between discrete steps, but with splines, I can slide smoothly through the action space! No more awkward robot movements - now my actions are as fluid as a human player's."
+</div>
+```
+
+---
+
+## File: about.markdown
+
+```
+---
+layout: page
+title: About
+permalink: /about/
+---
+
+This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+
+You can find the source code for Minima at GitHub:
+[jekyll][jekyll-organization] /
+[minima](https://github.com/jekyll/minima)
+
+You can find the source code for Jekyll at GitHub:
+[jekyll][jekyll-organization] /
+[jekyll](https://github.com/jekyll/jekyll)
+
+
+[jekyll-organization]: https://github.com/jekyll
+```
+
+---
+
+# Directory: assets/
+
+---
+
+# Directory: assets/css/
+
+---
+
+## File: assets/css/style.scss
+
+```scss
+---
+---
+
+/* Import the base theme first - with @ symbol */
+@import "{{ site.theme }}";
+
+/* Custom variables - to replace deprecated color methods */
+$background-color: #f0f0fa;
+$text-color: #5a5a8a;
+$accent-color: #b39ddb;
+$accent-dark: #7e57c2;
+$accent-light: #d1c4e9;
+$code-background: #f5f3ff;
+$code-text: #5a5a8a;
+$link-color: #7e57c2;
+$link-hover-color: #ff9e80;
+$border-color: #d4d4f0;
+$blockquote-color: #b39ddb;
+$night-accent: #b0c4de;
+$star-color: #fff59d;
+
+/* Custom styles - using direct colors instead of functions like lighten() */
+
+/* Base styles */
+body {
+  background-color: $background-color;
+  color: $text-color;
+  font-family: 'Quicksand', 'Open Sans', sans-serif;
+  line-height: 1.6;
+  background-image: linear-gradient(to bottom, $background-color 0%, $background-color 97%, $night-accent 100%);
+  background-attachment: fixed;
+}
+
+/* Star accents - subtle background details */
+body:before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: radial-gradient($star-color 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* Header styles */
+.site-header {
+  border-bottom: 1px solid $border-color;
+  background-color: rgba(240, 240, 250, 0.9);
+  box-shadow: 0 2px 10px rgba(176, 196, 222, 0.2);
+}
+
+.site-title, .site-title:visited {
+  color: $link-color;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.site-nav .page-link {
+  color: $text-color;
+  transition: color 0.3s ease;
+}
+
+/* Footer styles */
+.site-footer {
+  border-top: 1px solid $border-color;
+  background-color: rgba(240, 240, 250, 0.9);
+  box-shadow: 0 -2px 10px rgba(176, 196, 222, 0.2);
+  margin-top: 40px;
+  padding-top: 20px;
+}
+
+/* Content styles */
+a, a:visited {
+  color: $link-color;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px dotted $link-color;
+  padding-bottom: 1px;
+}
+
+a:hover {
+  color: $link-hover-color;
+  border-bottom: 1px solid $link-hover-color;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $accent-dark;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+h1 {
+  font-size: 2.2em;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+h1:after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, $accent-color, $accent-dark);
+  bottom: 0;
+  left: 0;
+}
+
+h2 {
+  color: $accent-dark;
+  font-size: 1.7em;
+}
+
+h3 {
+  color: $accent-dark;
+  font-size: 1.4em;
+}
+
+/* Clean, simple code blocks */
+pre, code {
+  background-color: var(--code-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(176, 196, 222, 0.1);
+  color: var(--code-text);
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+pre {
+  padding: 12px 15px;
+  overflow-x: auto;
+  position: relative;
+}
+
+code {
+  padding: 2px 6px;
+  letter-spacing: 0;
+  position: relative;
+  tab-size: 4;
+}
+
+pre {
+  padding: 8px 12px;
+  overflow-x: auto;
+}
+
+code {
+  padding: 1px 5px;
+}
+
+/* Blockquotes - for Yonaka's perspective */
+blockquote {
+  border-left: 4px solid var(--blockquote-color);
+  padding-left: 15px;
+  font-style: italic;
+  color: var(--text-color);
+  background-color: rgba(179, 157, 219, 0.15);
+  border-radius: 0 12px 12px 0;
+  margin: 20px 0;
+  padding: 15px 20px;
+  box-shadow: 0 2px 10px rgba(176, 196, 222, 0.15);
+}
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+table th, table td {
+  padding: 8px;
+  border: 1px solid var(--border-color);
+}
+
+table th {
+  background-color: rgba(181, 157, 219, 0.2);
+}
+
+table tr:nth-child(even) {
+  background-color: rgba(20, 20, 40, 0.5);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.8rem;
+  margin-bottom: 1.8rem;
+  box-shadow: 0 4px 15px rgba(176, 196, 222, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+img:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(176, 196, 222, 0.4);
+}
+
+/* Image captions */
+img + em {
+  display: block;
+  text-align: center;
+  font-size: 0.95rem;
+  color: $text-color;
+  opacity: 0.9;
+  margin-top: -0.8rem;
+  margin-bottom: 2rem;
+  font-family: 'Quicksand', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+/* Post list */
+.post-list {
+  margin-left: 0;
+  list-style: none;
+}
+
+.post-list li {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px dashed $border-color;
+  transition: transform 0.3s ease;
+}
+
+.post-list li:hover {
+  transform: translateX(5px);
+}
+
+.post-link {
+  font-size: 1.6rem;
+  color: $link-color;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.post-link:hover {
+  color: $link-hover-color;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.post-meta {
+  font-size: 0.9rem;
+  color: #8a8ab0;
+  font-style: italic;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.post-excerpt {
+  color: $text-color;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.pagination a, .pagination span {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 4px;
+  background-color: rgba(179, 157, 219, 0.1);
+}
+
+.pagination a:hover {
+  background-color: rgba(179, 157, 219, 0.2);
+}
+
+/* MathJax specific styling */
+.MathJax {
+  color: $text-color !important;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.pagination a, .pagination span {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 4px;
+  background-color: rgba(181, 157, 219, 0.1);
+}
+
+.pagination a:hover {
+  background-color: rgba(181, 157, 219, 0.2);
+}
+
+/* MathJax specific styling */
+.MathJax {
+  color: var(--text-color) !important;
+}
+
+/* Yonaka character quotes with customizable images */
+.yonaka-quote {
+  position: relative;
+  font-style: italic;
+  padding: 30px 30px 30px 120px; /* Increased left padding for larger icon and better text centering */
+  background-color: rgba(179, 157, 219, 0.15);
+  border-radius: 12px;
+  margin: 25px 0;
+  box-shadow: 0 3px 15px rgba(176, 196, 222, 0.2);
+  border-left: 4px solid $accent-color;
+  border-right: 4px solid $accent-dark;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Default Yonaka icon */
+.yonaka-quote:before {
+  content: '';
+  position: absolute;
+  left: 25px; /* Increased from 20px */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px; 
+  height: 64px;
+  background-image: url('/assets/images/yonaka-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+}
+
+/* Custom image Yonaka quotes */
+.yonaka-quote.custom-image:before {
+  background-image: none; /* Will be set via style attribute */
+  width: 80px;
+  height: 80px;
+}
+
+/* Subtle glow effect for Yonaka quotes - mimicking her orange glowing eyes */
+.yonaka-quote:after {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px;
+  height: 64px;
+  background: radial-gradient(circle, rgba(255, 158, 128, 0.3) 0%, rgba(255, 158, 128, 0) 70%);
+  z-index: -1;
+  animation: pulse 3s infinite alternate;
+}
+
+/* Artist attribution for custom images */
+.artist-credit {
+  display: block;
+  font-size: 0.8rem;
+  color: $text-color;
+  opacity: 0.7;
+  font-style: normal;
+  text-align: right;
+  margin-top: 10px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.artist-credit a {
+  color: $accent-dark;
+  border-bottom: none;
+}
+
+.artist-credit a:hover {
+  color: $link-hover-color;
+  border-bottom: 1px dotted $link-hover-color;
+}
+
+/* Mint green character quote */
+.mint-quote {
+  position: relative;
+  font-style: italic;
+  padding: 30px 30px 30px 100px; /* Increased left padding for larger icon */
+  background-color: rgba(159, 232, 179, 0.15);
+  border-radius: 12px;
+  margin: 25px 0;
+  box-shadow: 0 3px 15px rgba(176, 196, 222, 0.2);
+  border-left: 4px solid #9fe8b3;
+  border-right: 4px solid #7ec897;
+}
+
+.mint-quote:before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px; /* Increased from 45px */
+  height: 64px; /* Increased from 45px */
+  background-image: url('/assets/images/mint-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+}
+
+/* Glow effect for mint quotes - matching pink eyes */
+.mint-quote:after {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px; /* Increased from 45px */
+  height: 64px; /* Increased from 45px */
+  background: radial-gradient(circle, rgba(255, 105, 180, 0.3) 0%, rgba(255, 105, 180, 0) 70%);
+  z-index: -1;
+  animation: pulse 3s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+
+/* Dark mode toggle - if you want to add this feature later */
+.dark-mode-toggle {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  opacity: 1;
+}
+```
+
+---
+
+## File: assets/python/file_structure.py
+
+```python
+#!/usr/bin/env python3
+"""
+Jekyll Blog Structure Exporter
+
+This script walks through a Jekyll blog directory and creates a single Markdown file
+that includes the content of all relevant files while ignoring unnecessary ones like
+cache files, lock files, etc.
+
+For binary files like images, it simply notes their existence and location.
+
+Usage:
+    python export_jekyll_structure.py /path/to/blog/directory [output_file.md]
+
+If output_file is not specified, it defaults to jekyll_structure_export.md in the current directory.
+"""
+
+import os
+import sys
+import datetime
+from pathlib import Path
+
+# Files and directories to ignore
+IGNORE_DIRS = [
+    '_site', '.git', '.jekyll-cache', '.sass-cache', 'node_modules', 
+    'vendor', '.bundle', '.github'
+]
+
+IGNORE_FILES = [
+    'Gemfile', 'Gemfile.lock', '.gitignore', '.DS_Store', 'package.json', 
+    'package-lock.json', 'yarn.lock', '.ruby-version'
+]
+
+# File extensions to treat as binary (just note existence, don't include content)
+BINARY_EXTENSIONS = [
+    '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.pdf', '.zip', 
+    '.tar.gz', '.woff', '.woff2', '.ttf', '.eot'
+]
+
+def should_ignore(path):
+    """Check if a path should be ignored."""
+    name = os.path.basename(path)
+    
+    # Check if it's in the ignore files list
+    if name in IGNORE_FILES:
+        return True
+    
+    # Check if it's a hidden file (starts with .)
+    if name.startswith('.') and name != '.htaccess':
+        return True
+    
+    # Check if the directory contains any of the ignore directories
+    parts = Path(path).parts
+    for ignore_dir in IGNORE_DIRS:
+        if ignore_dir in parts:
+            return True
+    
+    return False
+
+def is_binary(path):
+    """Check if a file is binary based on extension."""
+    for ext in BINARY_EXTENSIONS:
+        if path.lower().endswith(ext):
+            return True
+    return False
+
+def write_file_to_md(file_path, output):
+    """Process a file and write its content or note its existence to the output."""
+    rel_path = os.path.relpath(file_path, start_dir)
+    
+    if is_binary(file_path):
+        output.write(f"## Binary File: {rel_path}\n\n")
+        return
+    
+    # Get file extension to determine the code block language
+    _, ext = os.path.splitext(file_path)
+    language = ""
+    
+    # Map extensions to markdown code block language identifiers
+    extension_map = {
+        '.html': 'html',
+        '.htm': 'html',
+        '.css': 'css',
+        '.scss': 'scss',
+        '.sass': 'sass',
+        '.js': 'javascript',
+        '.jsx': 'jsx',
+        '.py': 'python',
+        '.rb': 'ruby',
+        '.md': 'markdown',
+        '.yml': 'yaml',
+        '.yaml': 'yaml',
+        '.json': 'json',
+        '.xml': 'xml',
+        '.sh': 'bash',
+        '.bash': 'bash',
+        '.txt': '',
+    }
+    
+    if ext in extension_map:
+        language = extension_map[ext]
+    
+    # Write file path and content to the output
+    output.write(f"## File: {rel_path}\n\n")
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            
+        if content.strip():  # Only write code block if there's content
+            output.write(f"```{language}\n")
+            output.write(content)
+            if not content.endswith('\n'):
+                output.write('\n')
+            output.write("```\n\n")
+        else:
+            output.write("*This file is empty*\n\n")
+    except UnicodeDecodeError:
+        # If we can't decode it as UTF-8, it might be binary
+        output.write("*This file could not be read as text and might be binary*\n\n")
+    except Exception as e:
+        output.write(f"*Error reading this file: {str(e)}*\n\n")
+    
+    output.write("---\n\n")
+
+def process_directory(directory, output):
+    """Process a directory and all its files/subdirectories."""
+    for item in sorted(os.listdir(directory)):
+        path = os.path.join(directory, item)
+        
+        if should_ignore(path):
+            continue
+            
+        if os.path.isdir(path):
+            # Note the directory existence
+            rel_path = os.path.relpath(path, start_dir)
+            output.write(f"# Directory: {rel_path}/\n\n")
+            output.write("---\n\n")
+            
+            # Process its contents
+            process_directory(path, output)
+        else:
+            write_file_to_md(path, output)
+
+if __name__ == "__main__":
+    # Parse command line arguments
+    if len(sys.argv) < 2:
+        print(f"Usage: {sys.argv[0]} <jekyll_directory> [output_file]")
+        sys.exit(1)
+    
+    start_dir = sys.argv[1]
+    output_file = "jekyll_structure_export.md"
+    
+    if len(sys.argv) > 2:
+        output_file = sys.argv[2]
+    
+    if not os.path.isdir(start_dir):
+        print(f"Error: {start_dir} is not a directory")
+        sys.exit(1)
+    
+    print(f"Exporting Jekyll blog structure from {start_dir} to {output_file}...")
+    
+    with open(output_file, 'w', encoding='utf-8') as output:
+        # Write header information
+        output.write("# Jekyll Blog Structure Export\n\n")
+        output.write(f"Generated on: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        output.write(f"Source directory: `{os.path.abspath(start_dir)}`\n\n")
+        output.write("This file contains the structure and content of your Jekyll blog for reference.\n\n")
+        output.write("---\n\n")
+        
+        # Process the entire directory
+        process_directory(start_dir, output)
+    
+    print(f"Export complete! The result is saved to {output_file}")
+```
+
+---
+
+# Directory: assets/yonaka/
+
+---
+
+## Binary File: assets/yonaka/loaf_yonaka.png
+
+## Binary File: assets/yonaka/welp_yonaka.png
+
+## File: index.markdown
+
+```
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: home
+---
+```
+
+---
+

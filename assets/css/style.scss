@@ -1,0 +1,602 @@
+---
+---
+
+/* Import the base theme first - with @ symbol */
+@import "{{ site.theme }}";
+
+$background-color: #f0f0fa;
+$text-color: #5a5a8a;
+$accent-color: #b39ddb;
+$accent-dark: #7e57c2;
+$accent-light: #d1c4e9;
+$code-background: #f5f3ff;
+$code-text: #5a5a8a;
+$link-color: #7e57c2;
+$link-hover-color: #ff9e80;
+$border-color: #d4d4f0;
+$blockquote-color: #b39ddb;
+$night-accent: #b0c4de;
+
+/* Custom styles - using direct colors instead of functions like lighten() */
+
+/* Base styles */
+body {
+  background-color: $background-color;
+  color: $text-color;
+  font-family: 'Quicksand', 'Open Sans', sans-serif;
+  line-height: 1.6;
+  background-image: linear-gradient(to bottom, $background-color 0%, $background-color 97%, $night-accent 100%);
+  background-attachment: fixed;
+}
+
+/* Header styles */
+.site-header {
+  border-top: 0px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  background-color: rgba(240, 240, 250, 0.9);
+  box-shadow: 0 2px 10px rgba(176, 196, 222, 0.2);
+}
+
+.site-title, .site-title:visited {
+  color: $link-color;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.site-nav .page-link {
+  color: $text-color;
+  transition: color 0.3s ease;
+}
+
+/* Footer styles */
+.site-footer {
+  border-top: 1px solid $border-color;
+  background-color: rgba(240, 240, 250, 0.9);
+  box-shadow: 0 -2px 10px rgba(176, 196, 222, 0.2);
+  margin-top: 40px;
+  padding-top: 20px;
+}
+
+/* Content styles */
+a, a:visited {
+  color: $link-color;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px dotted $link-color;
+  padding-bottom: 1px;
+}
+
+a:hover {
+  color: $link-hover-color;
+  border-bottom: 1px solid $link-hover-color;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $accent-dark;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+h1 {
+  font-size: 2.2em;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+h1:after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, $accent-color, $accent-dark);
+  bottom: 0;
+  left: 0;
+}
+
+h2 {
+  color: $accent-dark;
+  font-size: 1.7em;
+}
+
+h3 {
+  color: $accent-dark;
+  font-size: 1.4em;
+}
+
+/* Clean, simple code blocks */
+pre, code {
+  background-color: var(--code-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(176, 196, 222, 0.1);
+  color: var(--code-text);
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+pre {
+  padding: 12px 15px;
+  overflow-x: auto;
+  position: relative;
+}
+
+code {
+  padding: 2px 6px;
+  letter-spacing: 0;
+  position: relative;
+  tab-size: 4;
+}
+
+pre {
+  padding: 8px 12px;
+  overflow-x: auto;
+}
+
+code {
+  padding: 1px 5px;
+}
+
+/* Blockquotes - for Yonaka's perspective */
+blockquote {
+  border-left: 4px solid var(--blockquote-color);
+  padding-left: 15px;
+  font-style: italic;
+  color: var(--text-color);
+  background-color: rgba(179, 157, 219, 0.15);
+  border-radius: 0 12px 12px 0;
+  margin: 20px 0;
+  padding: 15px 20px;
+  box-shadow: 0 2px 10px rgba(176, 196, 222, 0.15);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+table th, table td {
+  padding: 8px;
+  border: 1px solid var(--border-color);
+}
+
+table th {
+  background-color: rgba(181, 157, 219, 0.2);
+}
+
+table tr:nth-child(even) {
+  background-color: rgba(20, 20, 40, 0.5);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.8rem;
+  margin-bottom: 1.8rem;
+  box-shadow: 0 4px 15px rgba(176, 196, 222, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+img:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(176, 196, 222, 0.4);
+}
+
+img.diagram {
+  box-shadow: none;
+}
+
+img.diagram:hover {
+  transform: translateY(-3px);
+  box-shadow: none;
+}
+
+/* Image captions */
+img + em {
+  display: block;
+  text-align: center;
+  font-size: 0.95rem;
+  color: $text-color;
+  opacity: 0.9;
+  margin-top: -0.8rem;
+  margin-bottom: 2rem;
+  font-family: 'Quicksand', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+/* Image expansion functionality */
+.image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none; /* Disable pointer events when hidden */
+}
+
+.expanded-image-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  z-index: 1001;
+  max-width: 95%;
+  max-height: 95%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  pointer-events: none; /* Disable pointer events when hidden */
+}
+
+.solid-background {
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-link, .image-link:visited{
+  padding-bottom: 0;
+  display: block;
+  border-bottom: none;
+  cursor: pointer;
+}
+
+.image-link:hover {
+  border-bottom: none;
+}
+
+.expanded-img {
+  display: block;
+  max-width: 100%;
+  max-height: 90vh;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 4px;
+  padding-bottom: 0px;
+  transform: none !important; /* Override the hover effect */
+  transition: none !important;
+}
+
+.expanded-img:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.image-overlay.active,
+.expanded-image-container.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Re-enable pointer events when visible */
+}
+
+.expanded-image-container.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Expandable image styling - only for thumbnails in the post */
+.post-content img.expandable {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-content img.expandable:hover {
+  transform: scale(1.02) translateY(-4px);
+  box-shadow: 0 8px 25px rgba(126, 87, 194, 0.5);
+}
+
+/* Post list */
+.post-list {
+  margin-left: 0;
+  list-style: none;
+}
+
+.post-list li {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px dashed $border-color;
+  transition: transform 0.3s ease;
+}
+
+.post-list li:hover {
+  transform: translateX(5px);
+}
+
+.post-link {
+  font-size: 1.6rem;
+  color: $link-color;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.post-link:hover {
+  color: $link-hover-color;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.post-meta {
+  font-size: 0.9rem;
+  color: #8a8ab0;
+  font-style: italic;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.post-excerpt {
+  color: $text-color;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.pagination a, .pagination span {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 4px;
+  background-color: rgba(179, 157, 219, 0.1);
+}
+
+.pagination a:hover {
+  background-color: rgba(179, 157, 219, 0.2);
+}
+
+/* MathJax specific styling */
+.MathJax {
+  color: $text-color !important;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.pagination a, .pagination span {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 4px;
+  background-color: rgba(181, 157, 219, 0.1);
+}
+
+.pagination a:hover {
+  background-color: rgba(181, 157, 219, 0.2);
+}
+
+/* MathJax specific styling */
+.MathJax {
+  color: var(--text-color) !important;
+}
+
+/* Add this to your style.scss file */
+#MJX_LiveRegion, 
+#MJX_HoverRegion, 
+#MJX_ToolTip,
+.MJX_LiveRegion, 
+.MJX_HoverRegion, 
+.MJX_ToolTip {
+  position: absolute !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  top: -1px !important;
+  left: -1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+}
+
+.yonaka-quote {
+  position: relative;
+  display: grid;
+  grid-template-columns: 150px 1fr; /* Fixed width for image area */
+  grid-gap: 20px;
+  padding: 10px;
+  align-items: center;
+  background-color: rgba(179, 157, 219, 0.15);
+  border-radius: 12px;
+  margin: 25px 0;
+  box-shadow: 0 3px 15px rgba(176, 196, 222, 0.2);
+  border-left: 4px solid #b39ddb;
+  border-right: 4px solid #7e57c2;
+  font-style: italic;
+}
+
+/* Default Yonaka icon as background image */
+.yonaka-quote:before {
+  content: '';
+  position: relative;
+  width: 128px;
+  height: 128px;
+  background-image: url('/assets/images/characters/yonaka-icon.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+  border-radius: 8px;
+}
+
+.yonaka-quote .yonaka-quote-text {
+  font-size: 1.15rem; /* Increased font size */
+  line-height: 1.5;   /* Adjusted line height for readability */
+  letter-spacing: 0.01em; /* Slight letter spacing for clarity */
+}
+
+/* Style the paragraph inside to maintain consistent spacing */
+.yonaka-quote .yonaka-quote-text p {
+  margin-top: 0;
+  margin-bottom: 0.8em; /* Space between paragraphs if multiple */
+}
+
+/* Custom image will override the background-image property */
+.yonaka-quote.custom-image:before {
+  background-size: contain;
+}
+
+/* Artist attribution */
+.artist-credit {
+  position: absolute;
+  bottom: 8px;
+  right: 15px;
+  font-size: 0.75rem;
+  color: #5a5a8a;
+  opacity: 0.7;
+  font-style: normal;
+  padding: 0;
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background-color: rgba(240, 240, 250, 0.7); /* Semi-transparent background */
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* Place attribution at the bottom of the quote */
+.artist-credit {
+  grid-column: 1 / span 2; /* Make it span both columns */
+  margin-top: 15px;
+}
+
+/* Artist attribution for custom images */
+.artist-credit {
+  display: block;
+  font-size: 0.8rem;
+  color: $text-color;
+  opacity: 0.7;
+  font-style: normal;
+  text-align: right;
+  margin-top: 10px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.artist-credit a {
+  color: $accent-dark;
+  border-bottom: none;
+}
+
+.artist-credit a:hover {
+  color: $link-hover-color;
+  border-bottom: 1px dotted $link-hover-color;
+}
+
+
+.kazumi-quote {
+  position: relative;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  grid-gap: 20px;
+  padding: 10px;
+  align-items: center;
+  background-color: rgba(159, 232, 179, 0.15);
+  border-radius: 12px;
+  margin: 25px 0;
+  box-shadow: 0 3px 15px rgba(176, 196, 222, 0.2);
+  border-left: 4px solid #9fe8b3;
+  border-right: 4px solid #7ec897;
+  font-style: italic;
+}
+
+.kazumi-quote:before {
+  content: '';
+  position: relative;
+  width: 128px;
+  height: 128px;
+  background-image: url('/assets/images/characters/kazumi-icon.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+  border-radius: 8px;
+}
+
+details.collapse-section {
+  margin: 25px 0 35px 0;
+  position: relative;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+}
+
+details.collapse-section summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: $accent-dark;
+  padding: 12px 15px;
+  background-color: rgba(179, 157, 219, 0.15);
+  border-bottom: 1px dashed $border-color;
+  list-style: none; /* Removes default marker */
+  outline: none;
+}
+
+/* Custom arrow indicator */
+details.collapse-section summary::-webkit-details-marker {
+  display: none;
+}
+
+details.collapse-section summary::before {
+  content: '▶';
+  color: $accent-color;
+  font-size: 0.8em;
+  margin-right: 10px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+details.collapse-section[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* Content area styling */
+details.collapse-section .collapse-content {
+  padding: 15px 20px;
+}
+
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+
+/* Dark mode toggle - if you want to add this feature later */
+.dark-mode-toggle {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  opacity: 1;
+}
