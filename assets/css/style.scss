@@ -1,7 +1,6 @@
 ---
 ---
 
-/* Import the base theme first - with @ symbol */
 @import "{{ site.theme }}";
 
 $background-color: #f0f0fa;
@@ -17,9 +16,6 @@ $border-color: #d4d4f0;
 $blockquote-color: #b39ddb;
 $night-accent: #b0c4de;
 
-/* Custom styles - using direct colors instead of functions like lighten() */
-
-/* Base styles */
 body {
   background-color: $background-color;
   color: $text-color;
@@ -29,7 +25,12 @@ body {
   background-attachment: fixed;
 }
 
-/* Header styles */
+@media only screen and (max-width: 767px) {
+  body {
+    background-attachment: scroll;
+    }
+}
+
 .site-header {
   border-top: 0px solid $border-color;
   border-bottom: 1px solid $border-color;
@@ -48,7 +49,6 @@ body {
   transition: color 0.3s ease;
 }
 
-/* Footer styles */
 .site-footer {
   border-top: 1px solid $border-color;
   background-color: rgba(240, 240, 250, 0.9);
@@ -57,7 +57,6 @@ body {
   padding-top: 20px;
 }
 
-/* Content styles */
 a, a:visited {
   color: $link-color;
   text-decoration: none;
@@ -104,7 +103,6 @@ h3 {
   font-size: 1.4em;
 }
 
-/* Clean, simple code blocks */
 pre, code {
   background-color: var(--code-background);
   border: 1px solid var(--border-color);
@@ -136,7 +134,6 @@ code {
   padding: 1px 5px;
 }
 
-/* Blockquotes - for Yonaka's perspective */
 blockquote {
   border-left: 4px solid var(--blockquote-color);
   padding-left: 15px;
@@ -155,7 +152,6 @@ blockquote {
   gap: 20px;
 }
 
-/* Table styles */
 table {
   border-collapse: collapse;
   width: 100%;
@@ -217,7 +213,6 @@ img + em {
   letter-spacing: 0.3px;
 }
 
-/* Image expansion functionality */
 .image-overlay {
   position: fixed;
   top: 0;
@@ -229,7 +224,7 @@ img + em {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
-  pointer-events: none; /* Disable pointer events when hidden */
+  pointer-events: none;
 }
 
 .expanded-image-container {
@@ -244,7 +239,7 @@ img + em {
   visibility: hidden;
   transition: all 0.3s ease;
   border-radius: 4px;
-  pointer-events: none; /* Disable pointer events when hidden */
+  pointer-events: none;
 }
 
 .solid-background {
@@ -275,7 +270,7 @@ img + em {
   box-shadow: none;
   border-radius: 4px;
   padding-bottom: 0px;
-  transform: none !important; /* Override the hover effect */
+  transform: none !important; 
   transition: none !important;
 }
 
@@ -295,7 +290,6 @@ img + em {
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* Expandable image styling - only for thumbnails in the post */
 .post-content img.expandable {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -371,12 +365,18 @@ img + em {
   background-color: rgba(179, 157, 219, 0.2);
 }
 
-/* MathJax specific styling */
 .MathJax {
   color: $text-color !important;
+  color: var(--text-color) !important;
 }
 
-/* Pagination */
+mjx-container[jax="SVG"][display="true"] {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 8px 0 !important;
+  }
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -394,12 +394,6 @@ img + em {
   background-color: rgba(181, 157, 219, 0.2);
 }
 
-/* MathJax specific styling */
-.MathJax {
-  color: var(--text-color) !important;
-}
-
-/* Add this to your style.scss file */
 #MJX_LiveRegion, 
 #MJX_HoverRegion, 
 #MJX_ToolTip,
@@ -422,7 +416,7 @@ img + em {
 .yonaka-quote {
   position: relative;
   display: grid;
-  grid-template-columns: 150px 1fr; /* Fixed width for image area */
+  grid-template-columns: 150px 1fr;
   grid-gap: 20px;
   padding: 10px;
   align-items: center;
@@ -435,7 +429,6 @@ img + em {
   font-style: italic;
 }
 
-/* Default Yonaka icon as background image */
 .yonaka-quote:before {
   content: '';
   position: relative;
@@ -451,23 +444,20 @@ img + em {
 }
 
 .yonaka-quote .yonaka-quote-text {
-  font-size: 1.15rem; /* Increased font size */
-  line-height: 1.5;   /* Adjusted line height for readability */
-  letter-spacing: 0.01em; /* Slight letter spacing for clarity */
+  font-size: 1.15rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
 }
 
-/* Style the paragraph inside to maintain consistent spacing */
 .yonaka-quote .yonaka-quote-text p {
   margin-top: 0;
-  margin-bottom: 0.8em; /* Space between paragraphs if multiple */
+  margin-bottom: 0.8em;
 }
 
-/* Custom image will override the background-image property */
 .yonaka-quote.custom-image:before {
   background-size: contain;
 }
 
-/* Artist attribution */
 .artist-credit {
   position: absolute;
   bottom: 8px;
@@ -479,18 +469,16 @@ img + em {
   padding: 0;
   margin: 0;
   font-family: 'Quicksand', sans-serif;
-  background-color: rgba(240, 240, 250, 0.7); /* Semi-transparent background */
+  background-color: rgba(240, 240, 250, 0.7);
   border-radius: 4px;
   padding: 2px 6px;
 }
 
-/* Place attribution at the bottom of the quote */
 .artist-credit {
-  grid-column: 1 / span 2; /* Make it span both columns */
+  grid-column: 1 / span 2;
   margin-top: 15px;
 }
 
-/* Artist attribution for custom images */
 .artist-credit {
   display: block;
   font-size: 0.8rem;
@@ -557,11 +545,10 @@ details.collapse-section summary {
   padding: 12px 15px;
   background-color: rgba(179, 157, 219, 0.15);
   border-bottom: 1px dashed $border-color;
-  list-style: none; /* Removes default marker */
+  list-style: none;
   outline: none;
 }
 
-/* Custom arrow indicator */
 details.collapse-section summary::-webkit-details-marker {
   display: none;
 }
@@ -579,24 +566,11 @@ details.collapse-section[open] summary::before {
   transform: rotate(90deg);
 }
 
-/* Content area styling */
 details.collapse-section .collapse-content {
   padding: 15px 20px;
 }
 
-
 @keyframes pulse {
   0% { opacity: 0.4; }
   100% { opacity: 0.8; }
-}
-
-/* Dark mode toggle - if you want to add this feature later */
-.dark-mode-toggle {
-  cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
-}
-
-.dark-mode-toggle:hover {
-  opacity: 1;
 }

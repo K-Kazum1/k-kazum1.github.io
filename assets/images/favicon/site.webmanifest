@@ -1,0 +1,14 @@
+{
+    "name": "Yonaka Research Lab",
+    "short_name": "Starlit RL",
+    "icons": [
+        {
+            "src": "/assets/images/favicon/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#7e57c2",
+    "background_color": "#f0f0fa",
+    "display": "standalone"
+}
