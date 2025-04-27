@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+  if (window.innerWidth < 768) {
+    return;
+  }
+  
   const images = document.querySelectorAll('.post-content img:not(.no-expand)');
   
   const overlay = document.createElement('div');
@@ -12,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let isTransitioning = false;
   
   images.forEach(image => {
-    // Add indicator that image is expandable
+    
     image.classList.add('expandable');
     
     image.style.cursor = 'pointer';

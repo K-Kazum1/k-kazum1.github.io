@@ -2,12 +2,12 @@
 title: Yonaka Research
 description: Developing reinforcement learning to let Yonaka play games
 author: Kazumi
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://yourusername.github.io" # replace with your GitHub username
+baseurl: ""
+url: "https://github.com/K-Kazum1"
 
 # Build settings
 markdown: kramdown
-theme: minima # We'll override this with our custom styling
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag

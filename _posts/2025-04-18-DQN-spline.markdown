@@ -53,7 +53,7 @@ This works, but has significant drawbacks:
 
 1. **Resolution problems**: Too few points and your agent can't make fine adjustments; too many and learning becomes inefficient
 2. **No knowledge transfer**: Learning that an action is good doesn't tells the agent whether a similar action would also be good
-3. **Curse of dimensionality**: Discretizing multiple continuous actions leads to combinatorial explosion
+3. **Curse of dimensionality**: Discretizing multiple continuous actions leads to combinatorial explosion (more on this in next post!)
 
 <div class="yonaka-quote-custom" 
      data-image="/assets/images/characters/yonaka-confused.png"
