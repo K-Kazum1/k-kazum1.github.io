@@ -9,7 +9,7 @@ excerpt: ""
 
 One of the main things that turns people away from using Deep Q-Learning is its inability to handle continuous actions or multiple sub-actions. In [Stable Baselines 3](https://stable-baselines3.readthedocs.io/en/master/guide/algos.html), they have a table of reinforcement learning algorithms and what kind of action spaces they each work in.
 
-![Stable Baselines 3 Algorithm Comparison](/assets/images/stable-baselines-comparison.png)
+![Stable Baselines 3 Algorithm Comparison](/assets/images/posts/spline/stable-baselines-comparison.png)
 
 In their table, DQN only has a tick on the Discrete actions box. That is very limiting! It would be nice if there was an easy and cheap way of allowing DQN to work with continuous and multiple actions. But for now, let's focus on how to make the first one work.
 
@@ -21,7 +21,7 @@ In games such fighting games, where an agent selects from a set of actions (move
 - Twinstick shooter like Binding of Isaac
 - A game like Minecraft where you need both discrete actions (moving with WASD keys, mining with click) and continuous control (moving the camera around)
 
-Eventually I would have to build an agent that works with continuous control, but I knew DQN wouldn't work out of the box. The standard approach—discretizing the action space into bins—technically works but produces jerky, unnatural movement. Imagine a car that can only turn its steering wheel in 10-degree increments instead of smoothly!
+Eventually I would have to build an agent that works with continuous control, but I knew DQN wouldn't work out of the box. The standard approach-discretizing the action space into bins-technically works but produces jerky, unnatural movement. Imagine a car that can only turn its steering wheel in 10-degree increments instead of smoothly!
 
 Most practitioners simply avoid DQN altogether for these tasks, moving to algorithms specifically designed for continuous control like DDPG or SAC. But I wondered: could we adapt DQN to handle continuous actions elegantly?
 
@@ -39,7 +39,7 @@ For discrete actions, this is straightforward. If you have 4 possible actions, y
 
 But what happens with continuous actions? If an action can be any value between, say, 0 and 1, we can't simply enumerate all possibilities.
 
-![Discrete vs Continuous Action Space](/assets/images/discrete-vs-continuous.png){:.diagram}
+![Discrete vs Continuous Action Space](/assets/images/posts/spline/discrete-vs-continuous.png){:.diagram}
 
 ## The Standard Solution: Discretization
 
@@ -47,7 +47,7 @@ The most common approach is to simply chop up (discretize) the continuous action
 
 For example, if your action space is $[0, 1]$, you might use $\{0, 0.1, 0.2, ..., 0.9, 1.0\}$ as your discrete approximation.
 
-![Discretization Diagram](/assets/images/discretization-diagram.png){:.diagram}
+![Discretization Diagram](/assets/images/posts/spline/discretization-diagram.png){:.diagram}
 
 This works, but has significant drawbacks:
 
@@ -85,7 +85,7 @@ If we want to use Q-learning with continuous actions, our representation of the 
 3. **Integration**: For some advanced techniques like Dueling Networks, we need to compute the average Q-value across all actions
 4. **Addition**: We need to be able to add Q-functions together (useful for ensemble methods)
 
-![Continuous Q Value Diagram](/assets/images/continuous-values-diagram.png){:.diagram}
+![Continuous Q Value Diagram](/assets/images/posts/spline/continuous-values-diagram.png){:.diagram}
 
 Many function approximators can handle evaluation, but maximization and integration are trickier. Neural networks, for instance, make evaluation easy but finding the global maximum is very difficult.
 
@@ -95,7 +95,7 @@ So what kind of mathematical construct could satisfy all these requirements?
 
 A cubic spline is a piecewise function made up of cubic polynomials that are smoothly connected at specific points called knots.
 
-![Cubic Spline Diagram](/assets/images/cubic-spline-diagram.png){:.diagram}
+![Cubic Spline Diagram](/assets/images/posts/spline/cubic-spline-diagram.png){:.diagram}
 
 Cubic splines have several properties that make them perfect for our needs:
 
@@ -144,11 +144,11 @@ For each cubic polynomial segment:
 3. Evaluate the spline at these points and at the boundaries
 4. Take the maximum of all these values
 
-![Maximization of Spline](/assets/images/maximization-diagram.png){:.diagram}
+![Maximization of Spline](/assets/images/posts/spline/maximization-diagram.png){:.diagram}
 
 Since we're dealing with cubic polynomials, the derivative is quadratic, and finding roots of a quadratic equation is trivial using the quadratic formula
 
-And we can even narrow down the points by half if we use the 2nd derivative test, halving the amount the amount to search!
+And we can even narrow down the points by half if we use the 2nd derivative test, halving the amount to search!
 
 ### 3. Computing the Mean
 
@@ -211,7 +211,7 @@ The method has limitations such as being slow, since each forward needs to solve
 
 I have found a work that uses spline curves for handling continuous action space, they call it [Wire Fitting](https://apps.dtic.mil/sti/tr/pdf/ADA280844.pdf), it's from 1993 and this is what the front page looks like
 
-![REINFORCEMENT LEARNING WITH HIGHDIMENSIONAL, CONTINUOUS ACTIONS](/assets/images/wirefitting.png)
+![REINFORCEMENT LEARNING WITH HIGHDIMENSIONAL, CONTINUOUS ACTIONS](/assets/images/posts/spline/wirefitting.png)
 
 {% endcapture %}
 
@@ -229,16 +229,16 @@ Environments are Reacher from [MuJoCo](https://gymnasium.farama.org/environments
 (click to enlarge)
 
 <div class="grid">
-    <img src="/assets/images/results/fingerspin.png" alt="fingerspin" title="fingerspin">
-    <img src="/assets/images/results/walker.png" alt="walker" title="walker">
-    <img src="/assets/images/results/reacher.png" alt="reacher" title="reacher">
+    <img src="/assets/images/results/spline/fingerspin.png" alt="fingerspin" title="fingerspin">
+    <img src="/assets/images/results/spline/walker.png" alt="walker" title="walker">
+    <img src="/assets/images/results/spline/reacher.png" alt="reacher" title="reacher">
 </div>
 
 Comparison of Walker performance between discretized action and spline action.
 
 <div class="grid">
-    <img src="/assets/images/results/discretized.gif" alt="buttslide" title="buttslide">
-    <img src="/assets/images/results/spline.gif" alt="I'm late!" title="I'm late!">
+    <img src="/assets/images/results/spline/discretized.gif" alt="buttslide" title="buttslide">
+    <img src="/assets/images/results/spline/spline.gif" alt="I'm late!" title="I'm late!">
 </div>
 
 The discretized agent is doing a butt slide, this strategy seems to be a very stable way of moving and won't fall over, but has a limit on how fast it can move. 
@@ -251,7 +251,7 @@ Side note, have you ever noticed that some agents with less capacity to learn wi
 
 Real time Q function graph of Reacher environment
 
-<img src="/assets/images/results/reacher.gif" alt="reacher" title="reacher">
+<img src="/assets/images/results/spline/reacher.gif" alt="reacher" title="reacher">
 
 {% endcapture %}
 
