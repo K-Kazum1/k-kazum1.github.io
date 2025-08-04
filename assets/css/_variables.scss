@@ -1,0 +1,87 @@
+:root {
+  --background-color: #f0f0fa;
+  --text-color: #5a5a8a;
+  --accent-color: #b39ddb;
+  --accent-dark: #7e57c2;
+  --accent-light: #d1c4e9;
+  --code-background: #f5f3ff;
+  --code-text: #5a5a8a;
+  --link-color: #7e57c2;
+  --link-hover-color: #ff9e80;
+  --border-color: #d4d4f0;
+  --blockquote-color: #b39ddb;
+  --night-accent: #b0c4de;
+
+  --header-footer-bg: rgba(240, 240, 250, 0.9);
+
+  --box-shadow: rgba(176, 196, 222, 0.2);
+  --box-shadow-light: rgba(176, 196, 222, 0.1);
+  --box-shadow-strong: rgba(176, 196, 222, 0.3);
+  --box-shadow-hover: rgba(176, 196, 222, 0.4);
+  
+  --blockquote-bg: rgba(179, 157, 219, 0.15);
+
+  --table-header-bg: rgba(181, 157, 219, 0.2);
+  --table-stripe-bg: rgba(20, 20, 40, 0.05);
+  
+  --pagination-bg: rgba(181, 157, 219, 0.1);
+  --pagination-hover-bg: rgba(181, 157, 219, 0.2);
+  
+  --yonaka-quote-bg: rgba(179, 157, 219, 0.15);
+  --yonaka-border-left: #b39ddb;
+  --yonaka-border-right: #7e57c2;
+  --kazumi-quote-bg: rgba(159, 232, 179, 0.15);
+  --kazumi-border-left: #9fe8b3;
+  --kazumi-border-right: #7ec897;
+  --artist-credit-bg: rgba(240, 240, 250, 0.7);
+
+  --collapse-summary-bg: rgba(179, 157, 219, 0.15);
+  --post-meta-color: #8a8ab0;
+  
+  --image-hover-shadow: rgba(126, 87, 194, 0.5);
+  --image-hover-diagram:rgba(126, 87, 194, 0.5);
+}
+[data-theme="dark"] {
+  --background-color: #1a1a2e;
+  --text-color: #c9c9d3;
+  --accent-color: #c9b3ff;
+  --accent-dark: #a788f5;
+  --accent-light: #e1d4f9;
+  --code-background: #16213e;
+  --code-text: #e8e8f0;
+  --link-color: #a788f5;
+  --link-hover-color: #ffb399;
+  --border-color: #3d3d5c;
+  --blockquote-color: #c9b3ff;
+  --night-accent: #4a5568;
+  
+  --header-footer-bg: rgba(26, 26, 46, 0.95);
+  
+  --box-shadow: rgba(0, 0, 0, 0.3);
+  --box-shadow-light: rgba(0, 0, 0, 0.2);
+  --box-shadow-strong: rgba(0, 0, 0, 0.4);
+  --box-shadow-hover: rgba(0, 0, 0, 0.5);
+
+  --blockquote-bg: rgba(179, 157, 219, 0.2);
+  
+  --table-header-bg: rgba(179, 157, 219, 0.3);
+  --table-stripe-bg: rgba(255, 255, 255, 0.05);
+  
+  --pagination-bg: rgba(179, 157, 219, 0.2);
+  --pagination-hover-bg: rgba(179, 157, 219, 0.3);
+  
+  --yonaka-quote-bg: rgba(179, 157, 219, 0.25);
+  --yonaka-border-left: #c9b3ff;
+  --yonaka-border-right: #a788f5;
+  --kazumi-quote-bg: rgba(159, 232, 179, 0.2);
+  --kazumi-border-left: #7dd3a0;
+  --kazumi-border-right: #5fb88a;
+  --artist-credit-bg: rgba(26, 26, 46, 0.8);
+  
+  --collapse-summary-bg: rgba(179, 157, 219, 0.2);
+  --post-meta-color: #9d9db8;
+
+  --image-hover-shadow: rgba(76, 79, 79, 0.4);
+  --image-hover-diagram: rgba(255, 247, 255, 0.4);
+  background-image: linear-gradient(to bottom, var(--background-color) 0%, var(--background-color) 97%, var(--night-accent) 100%);
+}

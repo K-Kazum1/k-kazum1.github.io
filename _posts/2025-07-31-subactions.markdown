@@ -136,7 +136,7 @@ Sampling autoregressively is a bit slow, since before being able to sample a new
 Evaluation in other hand can be faster, since you already have all of the action that needs to be taken, so the overhead of sampling individually is not there.
 
 For a recurrent network, these two will be done exactly the same way. But transformers can take advantage of faster evaluation.
-Transformers can also use optimizations for sampling like KV cacheing for each sampling step, or architectures like Grouped Query Attention and Multi Latent Attention.
+Transformers can also use optimizations for sampling like KV caching for each sampling step, or architectures like Grouped Query Attention and Multi Latent Attention.
 
 At first I've tried using a full self attention with the state and action embedding concatenated together, but this seems to perform worse than Action Branching.
 I've spent a lot of time trying to figure out why, but it seems there needed to be a clear separation between the states and action.

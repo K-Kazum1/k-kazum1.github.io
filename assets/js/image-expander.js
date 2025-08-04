@@ -27,11 +27,17 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         return false;
       }
+
+      imageClass = 'expanded-img'
+
+      if(this.classList.contains('diagram')){
+          imageClass += ' diagram-expanded'
+      }
       
       expandedContainer.innerHTML = `
         <div class="solid-background">
           <a href="${this.src}" target="_blank" class="image-link" title="Open in new tab">
-            <img src="${this.src}" alt="${this.alt || 'Expanded image'}" class="expanded-img">
+            <img src="${this.src}" alt="${this.alt || 'Expanded image'}" class="${imageClass}">
           </a>
         </div>
       `;

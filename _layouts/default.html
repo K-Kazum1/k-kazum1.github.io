@@ -9,11 +9,11 @@
   {%- seo -%}
   <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
   {%- feed_meta -%}
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   
-  <!-- MathJax Configuration -->
   <script type="text/javascript">
     window.MathJax = {
       tex: {
@@ -42,6 +42,10 @@
 
 <body>
   {%- include header.html -%}
+
+  {%- include theme-toggle.html -%}
+
+  <script src="{{ "/assets/js/theme-toggle.js" | relative_url }}"></script>
 
   <main class="page-content" aria-label="Content">
     <div class="wrapper">
