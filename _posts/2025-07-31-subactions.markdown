@@ -12,8 +12,8 @@ That solved one major limitation, but there's still another one that keeps peopl
 
 ![Stable Baselines 3 Algorithm Comparison](/assets/images/posts/subactions/stable-baselines-comparison.png)
 
-DQN is still missing support for "MultiDiscrete" action spaces. That's the other major limitation I want to address.
-It also says MultiBinary is missing, but that's just a weird MultiDiscrete so I'll ignore it.
+DQN is still missing support for [MultiDiscrete](https://gymnasium.farama.org/api/spaces/fundamental/#gymnasium.spaces.MultiDiscrete) action spaces. That's the other major limitation I want to address.
+It also says [MultiBinary](https://gymnasium.farama.org/api/spaces/fundamental/#gymnasium.spaces.MultiBinary) is missing, but that's just a weird MultiDiscrete so I'll ignore it.
 
 Box is also only half solved, but the full Box action space isn't just about continuous action, it's also an action space for multiple actions.
 

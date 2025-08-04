@@ -4,6 +4,7 @@
 @import "{{ site.theme }}";
 @import "variables";
 @import "components";
+@import "glossary";
 
 .yonaka-quote {
   position: relative;
